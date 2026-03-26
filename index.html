@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tracko — Level Up Your Productivity</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       AUTH SCREEN
+  ═══════════════════════════════════════════ -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-bg-grid"></div>
+    <div class="auth-glow"></div>
+
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">Tracko</span>
+      </div>
+      <p class="auth-tagline">Level up your productivity.</p>
+
+      <!-- Tab Toggle -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Sign In</button>
+        <button class="auth-tab" data-tab="signup">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form" class="auth-form active">
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" id="login-username" placeholder="Enter your username" autocomplete="off" />
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" />
+        </div>
+        <div id="login-error" class="auth-error"></div>
+        <button class="btn-primary" id="btn-login">Sign In →</button>
+      </div>
+
+      <!-- Signup Form -->
+      <div id="signup-form" class="auth-form">
+        <div class="input-group">
+          <label>Display Name</label>
+          <input type="text" id="signup-name" placeholder="How should we call you?" autocomplete="off" />
+        </div>
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" id="signup-username" placeholder="Choose a username" autocomplete="off" />
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="signup-password" placeholder="Create a password" />
+        </div>
+        <div id="signup-error" class="auth-error"></div>
+        <button class="btn-primary" id="btn-signup">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       APP SHELL
+  ═══════════════════════════════════════════ -->
+  <div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">Tracko</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">⬡</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="tasks">
+          <span class="nav-icon">◻</span>
+          <span>Tasks</span>
+        </button>
+        <button class="nav-item" data-view="progress">
+          <span class="nav-icon">◈</span>
+          <span>Progress</span>
+        </button>
+        <button class="nav-item" data-view="profile">
+          <span class="nav-icon">◯</span>
+          <span>Profile</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="user-avatar" id="sidebar-avatar">T</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-name">User</span>
+            <span class="user-level" id="sidebar-level">Level 1</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="btn-logout" title="Sign out">⏻</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <button class="menu-toggle" id="menu-toggle">☰</button>
+        <div class="topbar-greeting">
+          <span id="greeting-text">Good morning</span>,
+          <strong id="greeting-name">User</strong>
+        </div>
+        <div class="topbar-xp">
+          <span class="xp-label">XP</span>
+          <div class="xp-mini-bar">
+            <div class="xp-mini-fill" id="topbar-xp-fill"></div>
+          </div>
+          <span class="xp-value" id="topbar-xp-text">0 / 100</span>
+        </div>
+      </header>
+
+      <!-- ───── DASHBOARD VIEW ───── -->
+      <section id="view-dashboard" class="view active">
+        <div class="view-header">
+          <h1>Dashboard</h1>
+          <p>Here's your productivity snapshot.</p>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stats-grid">
+          <div class="stat-card" data-accent="cyan">
+            <div class="stat-icon">◻</div>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-total">0</span>
+              <span class="stat-label">Total Tasks</span>
+            </div>
+          </div>
+          <div class="stat-card" data-accent="green">
+            <div class="stat-icon">✓</div>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-done">0</span>
+              <span class="stat-label">Completed</span>
+            </div>
+          </div>
+          <div class="stat-card" data-accent="amber">
+            <div class="stat-icon">◷</div>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-pending">0</span>
+              <span class="stat-label">Pending</span>
+            </div>
+          </div>
+          <div class="stat-card" data-accent="violet">
+            <div class="stat-icon">⬡</div>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-level">1</span>
+              <span class="stat-label">Level</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress + XP Row -->
+        <div class="dashboard-row">
+
+          <!-- Task Progress Card -->
+          <div class="card progress-card">
+            <div class="card-header">
+              <h3>Task Completion</h3>
+              <span class="badge-pill" id="dash-pct">0%</span>
+            </div>
+            <div class="big-progress-bar">
+              <div class="big-progress-fill" id="dash-progress-fill"></div>
+            </div>
+            <div class="progress-labels">
+              <span id="progress-done-label">0 done</span>
+              <span id="progress-total-label">0 total</span>
+            </div>
+
+            <!-- Mini Bar Chart -->
+            <div class="bar-chart" id="bar-chart">
+              <!-- generated by JS -->
+            </div>
+          </div>
+
+          <!-- XP Card -->
+          <div class="card xp-card">
+            <div class="card-header">
+              <h3>XP & Level</h3>
+            </div>
+            <div class="level-display">
+              <div class="level-orb" id="level-orb">
+                <span class="level-num" id="level-num">1</span>
+                <span class="level-lbl">LVL</span>
+              </div>
+            </div>
+            <div class="xp-section">
+              <div class="xp-header">
+                <span>XP Progress</span>
+                <span id="xp-fraction">0 / 100</span>
+              </div>
+              <div class="xp-bar-track">
+                <div class="xp-bar-fill" id="xp-bar-fill"></div>
+              </div>
+              <p class="xp-next" id="xp-next-label">100 XP to next level</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="card badges-card">
+          <div class="card-header">
+            <h3>Badges</h3>
+            <span class="badge-pill" id="badge-count">0 earned</span>
+          </div>
+          <div class="badges-grid" id="badges-grid">
+            <!-- generated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── TASKS VIEW ───── -->
+      <section id="view-tasks" class="view">
+        <div class="view-header">
+          <h1>Tasks</h1>
+          <p>Add, complete, and manage your work.</p>
+        </div>
+
+        <!-- Add Task -->
+        <div class="card add-task-card">
+          <div class="add-task-row">
+            <input type="text" id="task-input" placeholder="What needs to be done?" maxlength="120" />
+            <select id="task-priority">
+              <option value="low">🟢 Low</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="high">🔴 High</option>
+            </select>
+            <button class="btn-primary" id="btn-add-task">Add Task</button>
+          </div>
+        </div>
+
+        <!-- Filter + Progress -->
+        <div class="task-controls">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="pending">Pending</button>
+            <button class="filter-tab" data-filter="completed">Completed</button>
+          </div>
+          <div class="task-progress-inline">
+            <div class="inline-bar-track">
+              <div class="inline-bar-fill" id="inline-bar-fill"></div>
+            </div>
+            <span id="inline-pct">0%</span>
+          </div>
+        </div>
+
+        <!-- Task List -->
+        <div class="task-list" id="task-list">
+          <div class="empty-state" id="empty-state">
+            <span class="empty-icon">◻</span>
+            <p>No tasks yet. Add your first one above!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── PROGRESS VIEW ───── -->
+      <section id="view-progress" class="view">
+        <div class="view-header">
+          <h1>Progress</h1>
+          <p>Track your journey and milestones.</p>
+        </div>
+
+        <div class="progress-layout">
+          <div class="card streak-card">
+            <h3>Activity Streak</h3>
+            <div class="streak-display">
+              <span class="streak-num" id="streak-num">0</span>
+              <span class="streak-unit">days</span>
+            </div>
+            <p class="streak-sub">Keep completing tasks daily!</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>XP Breakdown</h3></div>
+            <div class="xp-breakdown" id="xp-breakdown">
+              <!-- generated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>All Badges</h3></div>
+          <div class="badges-grid badges-grid-large" id="badges-grid-progress">
+            <!-- generated by JS -->
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Task History</h3></div>
+          <div class="history-list" id="history-list">
+            <p class="empty-msg">Complete tasks to see history here.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── PROFILE VIEW ───── -->
+      <section id="view-profile" class="view">
+        <div class="view-header">
+          <h1>Profile</h1>
+          <p>Your identity and achievements.</p>
+        </div>
+
+        <div class="profile-layout">
+          <div class="card profile-hero-card">
+            <div class="profile-avatar-large" id="profile-avatar-large">T</div>
+            <div class="profile-name" id="profile-name-display">User</div>
+            <div class="profile-username" id="profile-username-display">@user</div>
+            <div class="profile-level-badge" id="profile-level-badge">Level 1</div>
+
+            <div class="profile-stats-row">
+              <div class="profile-stat">
+                <span class="profile-stat-val" id="profile-total">0</span>
+                <span class="profile-stat-lbl">Tasks</span>
+              </div>
+              <div class="profile-stat">
+                <span class="profile-stat-val" id="profile-done">0</span>
+                <span class="profile-stat-lbl">Done</span>
+              </div>
+              <div class="profile-stat">
+                <span class="profile-stat-val" id="profile-xp">0</span>
+                <span class="profile-stat-lbl">Total XP</span>
+              </div>
+              <div class="profile-stat">
+                <span class="profile-stat-val" id="profile-badges">0</span>
+                <span class="profile-stat-lbl">Badges</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card profile-settings-card">
+            <div class="card-header"><h3>Edit Profile</h3></div>
+            <div class="input-group">
+              <label>Display Name</label>
+              <input type="text" id="edit-name" placeholder="Your display name" />
+            </div>
+            <button class="btn-primary" id="btn-save-profile">Save Changes</button>
+            <div class="profile-save-msg" id="profile-save-msg"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast"></div>
+
+  <!-- BADGE UNLOCK POPUP -->
+  <div class="badge-popup" id="badge-popup">
+    <div class="badge-popup-inner">
+      <div class="badge-popup-icon" id="badge-popup-icon">🏅</div>
+      <div class="badge-popup-title">Badge Unlocked!</div>
+      <div class="badge-popup-name" id="badge-popup-name">First Task</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
